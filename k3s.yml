@@ -1,0 +1,85 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars/keys_master.yml
+  roles:
+    - bootstrap
+
+- hosts: Master_Node
+  gather_facts: no
+  remote_user: ec2-user
+  tasks:
+  - name: Wait for ssh
+    include_role:
+     name: bootstrap
+     tasks_from: wait_ssh
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars/keys_worker.yml
+  roles:
+    - bootstrap
+
+- hosts: Worker_Node
+  gather_facts: no
+  remote_user: ec2-user
+  tasks:
+  - name: Wait for ssh
+    include_role:
+     name: bootstrap
+     tasks_from: wait_ssh
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars/keys_master.yml
+  roles:
+    - master
+
+- name: Bootstrap Master Node
+  hosts: Bootstrap_Master_Node
+  become: true
+  gather_facts: false
+  user: ec2-user
+  vars_files:
+    - vars/keys_master.yml
+  tasks:
+  - name: Initialize first Master Node
+    include_role:
+     name: master
+     tasks_from: init_master
+
+- name: Configure Master Nodes
+  hosts: Master_Node
+  become: true
+  gather_facts: false
+  user: ec2-user
+  vars_files:
+    - vars/keys_master.yml
+  tasks:
+  - name: Join Master Nodes
+    include_role:
+     name: master
+     tasks_from: join_master
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars/keys_worker.yml
+  tasks:
+  roles:
+    - worker
+
+- name: Configure Worker Nodes
+  hosts: Worker_Node
+  become: true
+  gather_facts: false
+  user: ec2-user
+  vars_files:
+    - vars/keys_worker.yml
+  tasks:
+  - name: Join Worker Node
+    include_role:
+     name: worker
+     tasks_from: join_worker

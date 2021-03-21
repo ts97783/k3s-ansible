@@ -1,0 +1,9 @@
+AWS_ACCESS_KEY_ID: <Your Access ID>
+AWS_SECRET_ACCESS_KEY: <Your Secret Access Key>
+AWS_REGION: us-east-1
+INSTANCE_TYPE: t2.micro
+IMAGE: ami-038f1ca1bd58a5790
+VPC_SUBNET_ID: <Your VPC Subnet ID>
+GROUP: <Your Security Group Name>
+TAG: Master_Node
+K3S_TOKEN: <Your Security Token>

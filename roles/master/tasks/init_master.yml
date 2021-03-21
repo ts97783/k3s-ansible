@@ -1,0 +1,4 @@
+- name: Install K3S Bootstrap Master Node
+  shell: /usr/bin/curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig ~/.kube/config --write-kubeconfig-mode 644 --tls-san $(curl -s http://checkip.amazonaws.com) --cluster-init" K3S_TOKEN="{{ K3S_TOKEN }}" sh - ; /usr/bin/sleep 30
+  args:
+   warn: false

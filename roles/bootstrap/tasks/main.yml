@@ -1,0 +1,29 @@
+- name: Provision EC2 Instances
+  ec2:
+    aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+    aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+    ec2_region: "{{ AWS_REGION }}"
+    instance_type: "{{ INSTANCE_TYPE }}"
+    keypair: key_pair01
+    image: "{{ IMAGE }}"
+    assign_public_ip: yes
+    vpc_subnet_id: "{{ VPC_SUBNET_ID }}"
+    group: "{{ GROUP }}"
+    wait: true
+    instance_tags:
+        Name: "{{ TAG }}"
+    exact_count: 3
+    count_tag:
+        Name: "{{ TAG }}"
+  register: ec2
+- debug:
+    var: ec2
+
+- name: Add EC2 Public IP to inventory
+  add_host:
+    hostname: '{{ item.public_ip }}'
+    groupname: "{{ TAG }}"
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_private_key_file: /home/ansible/key_pair01.pem
+  loop: '{{ ec2.instances }}'
+  tags: "{{ TAG }}"

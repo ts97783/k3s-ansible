@@ -1,0 +1,50 @@
+- name: Provision Worker Nodes 
+  ec2_instance_info:
+     region: "{{ AWS_REGION }}"
+     filters:
+       "tag:Name": Master_Node 
+       instance-state-name: [ "running" ]
+  register: ec2_master0_metadata
+   
+- debug: msg="{{ ec2_master0_metadata.instances[0].public_ip_address }}"
+  register: ec2_master0_metadata_ip
+
+- name: Add Bootstrap Master Node to inventory
+  add_host:
+    hostname: '{{ ec2_master0_metadata.instances[0].public_ip_address }}'
+    groupname: Bootstrap_Master_Node
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_private_key_file: /home/ansible/key_pair01.pem
+
+- name: Add Worker Nodes Public IP's to inventory
+  ec2_instance_info:
+     region: "{{ AWS_REGION }}"
+     filters:
+       "tag:Name": Worker_Node
+       instance-state-name: [ "running" ]
+  register: ec2_metadata
+
+- debug: msg="{{ ec2_metadata.instances[0].public_ip_address }}"
+- debug: msg="{{ ec2_metadata.instances[1].public_ip_address }}"
+- debug: msg="{{ ec2_metadata.instances[2].public_ip_address }}"
+
+- name: Add Worker Nodes to inventory
+  add_host:
+    hostname: '{{ ec2_metadata.instances[0].public_ip_address }}'
+    groupname: Worker_Nodes
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_private_key_file: /home/ansible/key_pair01.pem
+
+- name: Add Worker Nodes to inventory
+  add_host:
+    hostname: '{{ ec2_metadata.instances[1].public_ip_address }}'
+    groupname: Worker_Nodes
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_private_key_file: /home/ansible/key_pair01.pem
+
+- name: Add Worker Nodes to inventory
+  add_host:
+    hostname: '{{ ec2_metadata.instances[2].public_ip_address }}'
+    groupname: Worker_Nodes
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_private_key_file: /home/ansible/key_pair01.pem
