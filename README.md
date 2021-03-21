@@ -8,7 +8,7 @@ This codes provisions an HA K3S Cluster on AWS EC2 Instances. The cluster runs t
 3. ssh Key Pair to access instances
 4. A VPC subnet ID
 5. A Security Group Name with the K3S TCP and UDP Ports added to the Security Group
-6. Ansible > 2.9.6 AWS SDK for Python (Boto3) 
+6. Ansible > 2.9.6 and AWS SDK for Python (Boto3) 
 
 **Usage**
 
