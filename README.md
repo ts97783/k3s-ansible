@@ -15,17 +15,17 @@ This codes provisions an HA K3S Cluster on AWS EC2 Instances. The cluster runs t
 Update the values in vars/keys_master.yml and vars/keys_worker.yml. For example, to deploy the Masters on AWS free-tier in us-east-1 add the below to vars/keys_master.yml:
 
 ```python
-AWS_ACCESS_KEY_ID: <Your Access Key ID>
-AWS_SECRET_ACCESS_KEY: <Your Secret Access Key>
+AWS_ACCESS_KEY_ID: 12345678910
+AWS_SECRET_ACCESS_KEY: ABCDEFGHIJ
 AWS_REGION: us-east-1
 INSTANCE_TYPE: t2.micro
 IMAGE: ami-038f1ca1bd58a5790
-VPC_SUBNET_ID: <Your Subnet ID>
-GROUP: <Your Security Group Names>
+VPC_SUBNET_ID: subnet-12345678910
+GROUP: k3s-security-group01
 TAG: Master_Node
-K3S_TOKEN: <Your Security Token>
-SSH_KEYPAIR_NAME: <Your Key Pair Name>
-SSH_KEY: <Path to your ssh key>
+K3S_TOKEN: my-secret-token
+SSH_KEYPAIR_NAME: keypair01
+SSH_KEY: /home/ansible/keypair01.pem
 ```
 Run the Playbook to start the install. 
 ```python
