@@ -24,18 +24,9 @@ VPC_SUBNET_ID: <Your Subnet ID>
 GROUP: <Your Security Group Names>
 TAG: Master_Node
 K3S_TOKEN: <Your Security Token>
+SSH_KEYPAIR_NAME: <Your Key Pair Name>
+SSH_KEY: <Path to your ssh key>
 ```
-
-Update the value for 'keypair' in roles/bootstrap/tasks/main.yml with your AWS ssh Keypair name.
-```python
-sed -i 's|key_pair01|your_ssh_pair_name|g' roles/bootstrap/tasks/main.yml
-```
-Update roles/bootstrap/tasks/main.yml and roles/master/tasks/main.yml with the path to your AWS ssh Keypair file:
-```python
-sed -i 's|/home/ansible/key_pair01.pem|path_to_your_ssh_keypair_file|g' roles/bootstrap/tasks/main.yml
-sed -i 's|/home/ansible/key_pair01.pem|path_to_your_ssh_keypair_file|g' roles/worker/tasks/main.yml
-```
-
 Run the Playbook to start the install. 
 ```python
 ansible-playbook k3s.yml

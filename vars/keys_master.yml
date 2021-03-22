@@ -7,3 +7,5 @@ VPC_SUBNET_ID: <Your VPC Subnet ID>
 GROUP: <Your Security Group Name>
 TAG: Master_Node
 K3S_TOKEN: <Your Security Token>
+SSH_KEYPAIR_NAME: <Your Key Pair Name>
+SSH_KEY: <Path to your ssh key>
